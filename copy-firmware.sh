@@ -44,6 +44,7 @@ while test $# -gt 0; do
 
         -j*)
             num_jobs=$(echo "$1" | sed 's/-j//')
+            num_jobs=${num_jobs:-1}
             if [ "$num_jobs" -gt 1 ] && ! has_gnu_parallel; then
                     err "the GNU parallel command is required to use -j"
             fi
@@ -74,6 +75,13 @@ while test $# -gt 0; do
         -h|--help)
             usage
             exit 1
+            ;;
+
+        -*)
+            # Ignore anything else that begins with - because that confuses
+            # the "test" command below
+            warn "ignoring option $1"
+            shift
             ;;
 
         *)
