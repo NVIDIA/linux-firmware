@@ -11,8 +11,13 @@ compext=
 destdir=
 num_jobs=1
 
+usage() {
+    echo "Usage: $0 [-v] [-jN] [--xz|--zstd] <destination directory>"
+}
+
 err() {
     printf "ERROR: %s\n" "$*"
+    usage
     exit 1
 }
 
@@ -64,6 +69,11 @@ while test $# -gt 0; do
             compress="zstd --compress --quiet --stdout"
             compext=".zst"
             shift
+            ;;
+
+        -h|--help)
+            usage
+            exit 1
             ;;
 
         *)
